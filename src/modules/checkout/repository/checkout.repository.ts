@@ -12,7 +12,7 @@ export default class CheckoutRepository implements CheckoutGateway {
         await OrderModel.create({
             id: order.id.id,
             client_id: order.client.id.id,
-            orderclient: {
+            client: {
                 id: order.client.id.id,
                 name: order.client.name,
                 email: order.client.email,
@@ -38,7 +38,7 @@ export default class CheckoutRepository implements CheckoutGateway {
     async findOrder(id: string): Promise<Order> {
         const order = await OrderModel.findOne({
             where: { id },
-            include: ["orderclient", "orderitems"]
+            include: ["client", "products"]
         })
 
         if (!order) {
@@ -48,10 +48,10 @@ export default class CheckoutRepository implements CheckoutGateway {
         return new Order({
             id: new Id(order.id),
             client: new Client({
-                id: new Id(order.orderclient.id),
-                name: order.orderclient.name,
-                email: order.orderclient.email,
-                address: order.orderclient.address
+                id: new Id(order.client.id),
+                name: order.client.name,
+                email: order.client.email,
+                address: order.client.address
             }),
             products: order.products.map((product) => new Product({
                 id: new Id(product.id),

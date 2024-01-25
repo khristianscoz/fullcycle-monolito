@@ -56,6 +56,7 @@ describe("ProductRepository test", () => {
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 100,
+      salesPrice: 120,
       stock: 10,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -67,6 +68,7 @@ describe("ProductRepository test", () => {
     expect(product.name).toEqual("Product 1");
     expect(product.description).toEqual("Product 1 description");
     expect(product.purchasePrice).toEqual(100);
+    expect(product.salesPrice).toEqual(120);
     expect(product.stock).toEqual(10);
   });
 });

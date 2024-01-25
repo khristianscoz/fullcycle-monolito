@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript"
 import { OrderModel } from "../repository/order.model"
-import { CheckoutClientModel } from "../repository/client.model"
+import { ClientModel } from "../repository/client.model"
 import { ProductModel } from "../repository/product.model"
 import { PlaceOrderFacadeInputDto } from "./checkout.facade.interface"
 import CheckoutRepository from "../repository/checkout.repository"
@@ -18,7 +18,7 @@ describe("Checkout facade test", () => {
         sync: { force: true }
       })
   
-      await sequelize.addModels([OrderModel, CheckoutClientModel, ProductModel]);
+      await sequelize.addModels([OrderModel, ClientModel, ProductModel]);
       await sequelize.sync()
     })
   

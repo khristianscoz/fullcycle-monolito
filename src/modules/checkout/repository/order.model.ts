@@ -16,7 +16,7 @@ export class OrderModel extends Model {
     client_id: string;
 
     @BelongsTo(() => ClientModel)
-    orderclient: ClientModel;
+    client: ClientModel;
   
     @HasMany(() => ProductModel)
     products: ProductModel[];

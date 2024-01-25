@@ -61,7 +61,8 @@ describe("PlaceOrderUseCase unit test", () => {
 
     describe("getProducts method", () => {
         beforeAll(() => {
-            jest.useFakeTimers("modern");
+            //jest.useFakeTimers("modern");
+            jest.useFakeTimers();
             jest.setSystemTime(mockDate);
         });
         
@@ -83,14 +84,17 @@ describe("PlaceOrderUseCase unit test", () => {
             await expect(placeOrderUseCase["getProduct"]("0")).rejects.toThrow(new Error("Product not found"));
         });
 
-        it("should return a product", async () => {
+        it("should return a product123123213", async () => {
+            const product = {
+                id: "0",
+                name: "Product 0",
+                description: "Product 0 description",
+                salesPrice: 0,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }
             const mockCatalogFacade = {
-                find: jest.fn().mockResolvedValue({
-                    id: "0",
-                    name: "Product 0",
-                    description: "Product 0 description",
-                    salesPrice: 0
-                })
+                find: jest.fn().mockResolvedValue(product)
             };
 
             //@ts-expect-error - force set catalogFacade
@@ -101,7 +105,9 @@ describe("PlaceOrderUseCase unit test", () => {
                     id: new Id("0"),
                     name: "Product 0",
                     description: "Product 0 description",
-                    salesPrice: 0
+                    salesPrice: 0,
+                    createdAt: product.createdAt,
+                    updatedAt: product.updatedAt
                 })
             );
             expect(mockCatalogFacade.find).toHaveBeenCalledTimes(1);
@@ -112,7 +118,8 @@ describe("PlaceOrderUseCase unit test", () => {
     describe("execute method", () => {
 
         beforeAll(() => {
-            jest.useFakeTimers("modern");
+            //jest.useFakeTimers("modern");
+            jest.useFakeTimers();
             jest.setSystemTime(mockDate);
         });
         

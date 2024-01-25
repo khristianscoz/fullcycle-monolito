@@ -53,15 +53,15 @@ describe("checkoutRepository test", () => {
 
         const orderDb = await OrderModel.findOne({
             where: { id: "1" },
-            include: ["orderclient", "orderitems"]
+            include: ["client", "products"]
         });
 
         expect(orderDb).toBeDefined();
         expect(orderDb.id).toEqual(input.id.id);
-        expect(orderDb.orderclient.id).toEqual(input.client.id.id);
-        expect(orderDb.orderclient.name).toEqual(input.client.name);
-        expect(orderDb.orderclient.email).toEqual(input.client.email);
-        expect(orderDb.orderclient.address).toEqual(input.client.address);
+        expect(orderDb.client.id).toEqual(input.client.id.id);
+        expect(orderDb.client.name).toEqual(input.client.name);
+        expect(orderDb.client.email).toEqual(input.client.email);
+        expect(orderDb.client.address).toEqual(input.client.address);
         expect(orderDb.products[0].id).toEqual(input.products[0].id.id);
         expect(orderDb.products[0].name).toEqual(input.products[0].name);
         expect(orderDb.products[0].description).toEqual(input.products[0].description);
@@ -75,7 +75,7 @@ describe("checkoutRepository test", () => {
         const orderDb = await OrderModel.create({
             id: "1",
             client_id: "1",
-            orderclient: {
+            client: {
                 id: "1",
                 name: "Client 1",
                 email: "mail@x.com",
@@ -102,10 +102,10 @@ describe("checkoutRepository test", () => {
 
         expect(result).toBeDefined();
         expect(result.id.id).toEqual(orderDb.id);
-        expect(result.client.id.id).toEqual(orderDb.orderclient.id);
-        expect(result.client.name).toEqual(orderDb.orderclient.name);
-        expect(result.client.email).toEqual(orderDb.orderclient.email);
-        expect(result.client.address).toEqual(orderDb.orderclient.address);
+        expect(result.client.id.id).toEqual(orderDb.client.id);
+        expect(result.client.name).toEqual(orderDb.client.name);
+        expect(result.client.email).toEqual(orderDb.client.email);
+        expect(result.client.address).toEqual(orderDb.client.address);
         expect(result.products[0].id.id).toEqual(orderDb.products[0].id);
         expect(result.products[0].name).toEqual(orderDb.products[0].name);
         expect(result.products[0].description).toEqual(orderDb.products[0].description)
