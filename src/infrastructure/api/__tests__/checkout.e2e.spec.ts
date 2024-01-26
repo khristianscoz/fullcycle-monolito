@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize-typescript"
 import Address from "../../../modules/@shared/domain/value-object/address";
-import { app } from "../express";
 import request from "supertest";
 import { ProductModel } from "../../../modules/product-adm/repository/product.model";
 import { OrderModel } from "../../../modules/checkout/repository/order.model";
@@ -10,10 +9,24 @@ import { ProductModel as CheckoutProductModel } from "../../../modules/checkout/
 import { ClientModel as OrderClientModel } from "../../../modules/checkout/repository/client.model";
 import { Umzug } from "umzug"
 import { migrator } from "../../../migrations/config-migrations/migrator";
+import express, { Express } from "express";
+import { productRoute } from "../routes/product.route";
+import { checkoutRoute } from "../routes/checkout.route";
+import { clientRoute } from "../routes/client.route";
+import { invoiceRoute } from "../routes/invoice.route";
+import TransactionModel from "../../../modules/payment/repository/transaction.model";
+import InvoiceModel from "../../../modules/invoice/repository/invoice.model";
+import InvoiceItemsModel from "../../../modules/invoice/repository/invoice-items.model";
 
 describe("E2E test for checkout", () => {
     let sequelize: Sequelize
-
+    const app: Express = express()
+    app.use(express.json());
+    app.use("/checkout", checkoutRoute);
+    app.use("/clients", clientRoute);
+    app.use("/invoice", invoiceRoute);
+    app.use("/products", productRoute);
+    
     let migration: Umzug<any>;
   
     beforeEach(async () => {
@@ -24,7 +37,7 @@ describe("E2E test for checkout", () => {
         sync: { force: true }
       })
 
-      await sequelize.addModels([ProductModel, OrderModel, StoreCatalogProductModel, CheckoutProductModel, OrderClientModel, ClientModel]);
+      await sequelize.addModels([ProductModel, OrderModel, StoreCatalogProductModel, CheckoutProductModel, OrderClientModel, ClientModel, TransactionModel, InvoiceModel, InvoiceItemsModel]);
       migration = migrator(sequelize)
       await migration.up()
     })
